@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Your Business Name</title>
+
     <style>
         * {
             margin: 0;
@@ -13,24 +14,23 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
             color: #f0f0f0;
             background: #1a2b24;
-            background-attachment: fixed;
+            line-height: 1.6;
         }
 
+        /* ================= HEADER ================= */
+
         header {
-            background: linear-gradient(135deg, #2d5a47 0%, #1f4435 100%);
+            background: linear-gradient(135deg, #2d5a47, #1f4435);
             border-bottom: 3px solid #d4af37;
             padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(10px);
         }
 
         .logo {
@@ -42,13 +42,12 @@
         }
 
         nav a {
+            margin-left: 2rem;
             color: #f0f0f0;
             text-decoration: none;
-            margin-left: 2.5rem;
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
             font-weight: 500;
+            position: relative;
+            cursor: pointer;
         }
 
         nav a::after {
@@ -70,9 +69,11 @@
             width: 100%;
         }
 
+        /* ================= PAGE HANDLING ================= */
+
         .page {
             display: none;
-            animation: fadeIn 0.5s ease-in;
+            animation: fadeIn 0.4s ease-in;
         }
 
         .page.active {
@@ -84,431 +85,275 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* ================= HERO ================= */
+
         .hero {
-            background: linear-gradient(135deg, #2d5a47 0%, #1f4435 100%);
-            color: #f0f0f0;
-            padding: 8rem 2rem;
-            text-align: center;
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
             min-height: 600px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            padding: 8rem 2rem;
+
+            background: linear-gradient(135deg, #2d5a47, #1f4435);
             position: relative;
             overflow: hidden;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(212,175,55,0.12), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(212,175,55,0.08), transparent 50%);
             pointer-events: none;
         }
 
-        .hero > * {
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
             position: relative;
             z-index: 1;
         }
 
         .hero h1 {
             font-size: 3.5rem;
-            margin-bottom: 1rem;
             color: #d4af37;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(212,175,55,0.25);
         }
 
         .hero p {
             font-size: 1.4rem;
-            margin-bottom: 3rem;
-            max-width: 700px;
             color: #c0c0c0;
-            font-weight: 300;
+            margin-bottom: 3rem;
         }
 
         .cta-button {
-            background: linear-gradient(135deg, #d4af37 0%, #e5c158 100%);
-            color: #1a3a2a;
             padding: 1.2rem 3rem;
-            text-decoration: none;
             border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            display: inline-block;
-            transition: all 0.3s;
             border: none;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
+            font-size: 1.1rem;
+            font-weight: bold;
 
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: left 0.3s;
+            background: linear-gradient(135deg, #d4af37, #e5c158);
+            color: #1a3a2a;
+            box-shadow: 0 8px 25px rgba(212,175,55,0.35);
+            transition: all 0.3s;
         }
 
         .cta-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.5);
+            box-shadow: 0 12px 35px rgba(212,175,55,0.5);
         }
 
-        .cta-button:hover::before {
-            left: 100%;
-        }
+        /* ================= SECTIONS ================= */
 
         section {
-            padding: 5rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
-            position: relative;
+            padding: 5rem 2rem;
         }
 
         section h2 {
-            font-size: 2.8rem;
-            margin-bottom: 3rem;
-            color: #d4af37;
             text-align: center;
-            font-weight: 700;
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-
-        section h2::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(90deg, #d4af37, transparent);
-            margin: 1rem auto 0;
+            font-size: 2.6rem;
+            color: #d4af37;
+            margin-bottom: 3rem;
         }
 
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2.5rem;
-            margin-top: 3rem;
         }
 
         .feature-card {
-            background: linear-gradient(135deg, #1a2b24 0%, #1a2b24 100%);
             padding: 2.5rem;
-            border: 2px solid #d4af37;
             border-radius: 15px;
-            text-align: left;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            border: 2px solid #d4af37;
+            background: #1a2b24;
             transition: all 0.3s;
         }
 
         .feature-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.2);
-            border-color: #e5c158;
-        }
-
-        .feature-card:hover::before {
-            top: 0;
-            right: 0;
-        }
-
-        .feature-card > * {
-            position: relative;
-            z-index: 1;
+            box-shadow: 0 20px 50px rgba(212,175,55,0.2);
         }
 
         .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
             color: #d4af37;
-            font-weight: 600;
+            margin-bottom: 1rem;
         }
 
         .feature-card p {
             color: #c0c0c0;
-            line-height: 1.8;
         }
 
-        .section-content p {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.9;
-            color: #c0c0c0;
-        }
+        /* ================= CONTACT ================= */
 
         .contact-form {
             max-width: 600px;
-            margin: 2rem auto 0;
-            background: linear-gradient(135deg, #1a2b24 0%, #1a2b24 100%);
+            margin: 0 auto;
             padding: 3rem;
-            border: 2px solid #d4af37;
             border-radius: 15px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border: 2px solid #d4af37;
+            background: #1a2b24;
         }
 
         .form-group {
             margin-bottom: 2rem;
         }
 
-        .form-group label {
+        label {
             display: block;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.6rem;
             color: #d4af37;
-            font-weight: 600;
-            letter-spacing: 0.5px;
         }
 
-        .form-group input,
-        .form-group textarea {
+        input, textarea {
             width: 100%;
             padding: 1rem;
-            background-color: rgba(10, 15, 13, 0.5);
+            background: rgba(10,15,13,0.6);
             border: 2px solid #d4af37;
-            color: #f0f0f0;
             border-radius: 8px;
-            font-family: inherit;
-            font-size: 1rem;
-            transition: all 0.3s;
+            color: #f0f0f0;
         }
 
-        .form-group textarea {
-            resize: vertical;
+        textarea {
             min-height: 150px;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            background-color: rgba(10, 15, 13, 0.8);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-            border-color: #e5c158;
-        }
-
         .submit-button {
-            background: linear-gradient(135deg, #d4af37 0%, #e5c158 100%);
-            color: #1a3a2a;
-            padding: 1.2rem 2.5rem;
-            border: none;
+            width: 100%;
+            padding: 1.2rem;
             border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
+            border: none;
             cursor: pointer;
-            transition: all 0.3s;
-            width: 100%;
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
-            position: relative;
-            overflow: hidden;
+            font-size: 1.1rem;
+            font-weight: bold;
+
+            background: linear-gradient(135deg, #d4af37, #e5c158);
+            color: #1a3a2a;
+            box-shadow: 0 8px 25px rgba(212,175,55,0.35);
         }
 
-        .submit-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: left 0.3s;
-        }
-
-        .submit-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.5);
-        }
-
-        .submit-button:hover::before {
-            left: 100%;
-        }
+        /* ================= FOOTER ================= */
 
         footer {
-            background: linear-gradient(135deg, #2d5a47 0%, #1f4435 100%);
-            color: #f0f0f0;
             text-align: center;
             padding: 2.5rem;
-            margin-top: 3rem;
+            background: linear-gradient(135deg, #2d5a47, #1f4435);
             border-top: 3px solid #d4af37;
-            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
         }
 
         footer p {
-            margin: 0.8rem 0;
             color: #c0c0c0;
         }
 
+        /* ================= RESPONSIVE ================= */
+
         @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            nav a {
-                margin-left: 1rem;
-            }
-
-            .hero {
-                padding: 4rem 2rem;
-                min-height: 400px;
-            }
-
             .hero h1 {
-                font-size: 2.2rem;
+                font-size: 2.3rem;
             }
 
             .hero p {
                 font-size: 1.1rem;
             }
 
-            section h2 {
-                font-size: 2rem;
-            }
-
-            section {
-                padding: 3rem 2rem;
+            header {
+                flex-direction: column;
+                gap: 1rem;
             }
         }
     </style>
 </head>
-<body>
-    <header>
-        <div class="logo">Your Business Name</div>
-        <nav>
-            <a onclick="showPage('intro')">Home</a>
-            <a onclick="showPage('contact')">Contact</a>
-        </nav>
-    </header>
 
-    <!-- INTRO PAGE -->
-    <div id="intro" class="page active">
-        <section class="hero">
+<body>
+
+<header>
+    <div class="logo">Your Business Name</div>
+    <nav>
+        <a onclick="showPage('intro')">Home</a>
+        <a onclick="showPage('contact')">Contact</a>
+    </nav>
+</header>
+
+<!-- HOME -->
+<div id="intro" class="page active">
+    <section class="hero">
+        <div class="hero-content">
             <h1>Hero Title</h1>
             <p>Hero subtitle or tagline goes here</p>
-            <button class="cta-button" onclick="showPage('contact')">Get In Touch</button>
-        </section>
+            <button class="cta-button" onclick="showPage('contact')">
+                Get In Touch
+            </button>
+        </div>
+    </section>
 
-        <section id="features">
-            <h2>Features Section</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h3>Feature One</h3>
-                    <p>Feature description goes here</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Feature Two</h3>
-                    <p>Feature description goes here</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Feature Three</h3>
-                    <p>Feature description goes here</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Feature Four</h3>
-                    <p>Feature description goes here</p>
-                </div>
+    <section>
+        <h2>Features Section</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Feature One</h3>
+                <p>Feature description goes here</p>
             </div>
-        </section>
-
-        <section id="section1" class="section-content">
-            <h2>Section One</h2>
-            <p>Your content goes here</p>
-            <p>Additional paragraph text goes here</p>
-        </section>
-
-        <section id="section2" class="section-content">
-            <h2>Section Two</h2>
-            <p>Your content goes here</p>
-            <p>Additional paragraph text goes here</p>
-        </section>
-    </div>
-
-    <!-- CONTACT PAGE -->
-    <div id="contact" class="page">
-        <section>
-            <h2>Contact Us</h2>
-            <div class="contact-form">
-                <form onsubmit="handleSubmit(event)">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input type="tel" id="phone" name="phone">
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" required></textarea>
-                    </div>
-                    <button type="submit" class="submit-button">Send Message</button>
-                </form>
+            <div class="feature-card">
+                <h3>Feature Two</h3>
+                <p>Feature description goes here</p>
             </div>
-        </section>
-    </div>
+            <div class="feature-card">
+                <h3>Feature Three</h3>
+                <p>Feature description goes here</p>
+            </div>
+            <div class="feature-card">
+                <h3>Feature Four</h3>
+                <p>Feature description goes here</p>
+            </div>
+        </div>
+    </section>
+</div>
 
-    <footer>
-        <p>&copy; 2024 Your Business Name. All rights reserved.</p>
-        <p>Email: hello@yourbusiness.com | Phone: (555) 123-4567</p>
-    </footer>
+<!-- CONTACT -->
+<div id="contact" class="page">
+    <section>
+        <h2>Contact Us</h2>
+        <div class="contact-form">
+            <form onsubmit="event.preventDefault(); alert('Form submitted');">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea required></textarea>
+                </div>
+                <button class="submit-button">Send Message</button>
+            </form>
+        </div>
+    </section>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script>
-        // Initialize EmailJS with your public key
-        emailjs.init('YOUR_PUBLIC_KEY');
+<footer>
+    <p>&copy; 2024 Your Business Name. All rights reserved.</p>
+</footer>
 
-        function showPage(pageName) {
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
-            document.getElementById(pageName).classList.add('active');
-        }
+<script>
+    function showPage(page) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(page).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+</script>
 
-        function handleSubmit(event) {
-            event.preventDefault();
-            
-            const submitButton = event.target.querySelector('.submit-button');
-            submitButton.textContent = 'Sending...';
-            submitButton.disabled = true;
-
-            // Send email using EmailJS
-            emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', event.target)
-                .then(function(response) {
-                    alert('Thank you for your message! We will be in touch soon.');
-                    event.target.reset();
-                    submitButton.textContent = 'Send Message';
-                    submitButton.disabled = false;
-                }, function(error) {
-                    alert('Failed to send message. Please try again or contact us directly.');
-                    submitButton.textContent = 'Send Message';
-                    submitButton.disabled = false;
-                });
-        }
-    </script>
 </body>
 </html>
