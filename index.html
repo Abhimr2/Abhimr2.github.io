@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Your Business Name</title>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
         * {
@@ -255,6 +256,107 @@
             color: #c0c0c0;
         }
 
+        /* ================= JSX PREVIEW ================= */
+
+        .jsx-preview-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .jsx-preview-wrapper h2 {
+            text-align: center;
+            font-size: 2.6rem;
+            color: #d4af37;
+            margin-bottom: 0.8rem;
+        }
+
+        .jsx-preview-wrapper .subtitle {
+            text-align: center;
+            color: #c0c0c0;
+            margin-bottom: 2.5rem;
+            font-size: 1rem;
+        }
+
+        .jsx-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .jsx-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .jsx-editor-panel,
+        .jsx-preview-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .panel-label {
+            color: #d4af37;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        #jsx-input {
+            width: 100%;
+            min-height: 380px;
+            padding: 1.2rem;
+            background: rgba(10,15,13,0.8);
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            color: #f0f0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            resize: vertical;
+        }
+
+        #jsx-error {
+            color: #ff6b6b;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            background: rgba(255,107,107,0.1);
+            border: 1px solid rgba(255,107,107,0.4);
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            display: none;
+        }
+
+        #jsx-preview-frame {
+            width: 100%;
+            min-height: 380px;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .preview-button {
+            padding: 0.9rem 2.5rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #d4af37, #e5c158);
+            color: #1a3a2a;
+            box-shadow: 0 8px 25px rgba(212,175,55,0.35);
+            transition: all 0.3s;
+            align-self: flex-start;
+        }
+
+        .preview-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(212,175,55,0.5);
+        }
+
         /* ================= RESPONSIVE ================= */
 
         @media (max-width: 768px) {
@@ -280,6 +382,7 @@
     <div class="logo">Your Business Name</div>
     <nav>
         <a onclick="showPage('intro')">Home</a>
+        <a onclick="showPage('jsx-preview')">JSX Preview</a>
         <a onclick="showPage('contact')">Contact</a>
     </nav>
 </header>
@@ -319,6 +422,33 @@
     </section>
 </div>
 
+<!-- JSX PREVIEW -->
+<div id="jsx-preview" class="page">
+    <div class="jsx-preview-wrapper">
+        <h2>JSX Preview</h2>
+        <p class="subtitle">Paste or type your JSX below and click <strong>Run Preview</strong> to see it rendered.</p>
+        <div class="jsx-layout">
+            <div class="jsx-editor-panel">
+                <span class="panel-label">JSX Code</span>
+                <textarea id="jsx-input" spellcheck="false">function App() {
+  return (
+    &lt;div style={{ fontFamily: 'sans-serif', padding: '2rem', textAlign: 'center' }}&gt;
+      &lt;h1 style={{ color: '#2d5a47' }}&gt;Hello from JSX!&lt;/h1&gt;
+      &lt;p&gt;Edit this code and click &lt;strong&gt;Run Preview&lt;/strong&gt;.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</textarea>
+                <button class="preview-button" onclick="runJsxPreview()">&#9654;&nbsp; Run Preview</button>
+                <div id="jsx-error"></div>
+            </div>
+            <div class="jsx-preview-panel">
+                <span class="panel-label">Preview</span>
+                <iframe id="jsx-preview-frame" title="JSX Preview"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- CONTACT -->
 <div id="contact" class="page">
     <section>
@@ -352,6 +482,41 @@
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(page).classList.add('active');
         window.scrollTo(0, 0);
+    }
+
+    function runJsxPreview() {
+        const code = document.getElementById('jsx-input').value;
+        const errorBox = document.getElementById('jsx-error');
+        const frame = document.getElementById('jsx-preview-frame');
+        errorBox.style.display = 'none';
+        errorBox.textContent = '';
+        try {
+            const transformed = Babel.transform(code, { presets: ['react'] }).code;
+            const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"><\/script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"><\/script>
+</head>
+<body>
+  <div id="root"></div>
+  <script>
+    try {
+      ${transformed}
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(React.createElement(App));
+    } catch(e) {
+      document.body.innerHTML = '<pre style="color:red;padding:1rem;">' + e.message + '<\\/pre>';
+    }
+  <\/script>
+</body>
+</html>`;
+            frame.srcdoc = html;
+        } catch (err) {
+            errorBox.textContent = err.message;
+            errorBox.style.display = 'block';
+        }
     }
 </script>
 
